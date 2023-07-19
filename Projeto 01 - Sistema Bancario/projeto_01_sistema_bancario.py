@@ -1,3 +1,6 @@
+from functions import deposit, withdrawal, statement, register_user, register_bank_account
+
+
 menu = """
 [D] Deposit
 [W] Withdrawal
