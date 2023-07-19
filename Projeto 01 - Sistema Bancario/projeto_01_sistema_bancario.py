@@ -1,13 +1,4 @@
-from functions import deposit, withdrawal, statement, register_user, register_bank_account
-
-
-menu = """
-[D] Deposit
-[W] Withdrawal
-[S] Statement
-[E] Exit
-
-=> """
+from functions import menu, deposit, withdrawal, show_statement, register_user, register_bank_account
 
 balance = 0
 LIMIT = 500
@@ -16,40 +7,18 @@ withdrawal_number = 0
 WITHDRAWAL_LIMIT = 3
 
 while True:
-    option = input(menu).upper()
+    option = menu()
     
     if option == "D":
-        deposit = float(input("How much do you want to deposit?\nR$"))
-        
-        if deposit <= 0:
-            print("Please enter a valid number!")
-        else:
-            balance += deposit
-            statement += f"Deposit R${deposit:.2f}\n"
-            print(f"Your new balance is R${balance:.2f}!")
+        value_deposit = float(input("How much do you want to deposit?\nR$"))
+        balance, statement = deposit(value_deposit, balance, statement)
     
     elif option == "W":
-        withdrawal = int(input("How much do you want to Withdraw?\nR$"))
-        
-        if withdrawal_number >= WITHDRAWAL_LIMIT:
-            print("You have already reached your daily withdrawal limits!")
-        elif withdrawal <= 0:
-            print("Please enter a valid number!")
-        elif withdrawal > balance:
-            print("Not enough balance in your account!")
-        elif withdrawal > LIMIT:
-            print(f"Sorry, your withdraw limit is R${LIMIT}!")
-        else:
-            balance -= withdrawal
-            statement += f"Withdrawal R${withdrawal:.2f}\n"
-            withdrawal_number += 1
-            print(f"Your new balance is R${balance:.2f}!")
+        value_withdrawal = float(input("How much do you want to Withdraw?\nR$"))
+        balance, statement, withdrawal_number = withdrawal(value_withdrawal, balance, statement, LIMIT, withdrawal_number, WITHDRAWAL_LIMIT)
     
     elif option == "S":
-        print("================Statement!================")
-        print("You haven't performed any operations yet!" if not statement else statement)
-        print(f"\nBalance: R${balance:.2f}")
-        print("==========================================")
+        show_statement(balance, statement)
     
     elif option == "E":
         break
