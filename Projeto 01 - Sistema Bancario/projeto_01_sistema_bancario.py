@@ -1,10 +1,11 @@
-from functions import menu, deposit, withdrawal, show_statement, register_user, register_bank_account
+from functions import menu, deposit, withdrawal, show_statement, register_user, register_bank_account, show_users, show_account
 
 balance = 0
 LIMIT = 500
 statement = ""
 withdrawal_number = 0
 WITHDRAWAL_LIMIT = 3
+users = {}
 
 while True:
     option = menu()
@@ -22,6 +23,18 @@ while True:
     
     elif option == "E":
         break
+    
+    elif option == "I":
+        register_user()
+    
+    elif option == "C":
+        register_bank_account()
+    
+    elif option == "U":
+        show_users()
+    
+    elif option == "A":
+        show_account()
     
     else:
         print("Invalid option, please select again the desired operation.")
