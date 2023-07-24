@@ -1,5 +1,6 @@
 from functions import menu, deposit, withdrawal, show_statement, register_user, register_bank_account, show_users, show_account
 
+account_number = 0
 balance = 0
 LIMIT = 500
 statement = ""
@@ -16,10 +17,17 @@ while True:
     
     elif option == "W":
         value_withdrawal = float(input("How much do you want to Withdraw?\nR$"))
-        balance, statement, withdrawal_number = withdrawal(value_withdrawal, balance, statement, LIMIT, withdrawal_number, WITHDRAWAL_LIMIT)
+        balance, statement, withdrawal_number = withdrawal(
+            value_withdrawal=value_withdrawal,
+            balance=balance,
+            statement=statement,
+            limit=LIMIT,
+            withdrawal_number=withdrawal_number,
+            withdrawal_limit=WITHDRAWAL_LIMIT
+        )
     
     elif option == "S":
-        show_statement(balance, statement)
+        show_statement(balance, statement=statement)
     
     elif option == "E":
         break
@@ -28,7 +36,7 @@ while True:
         register_user()
     
     elif option == "C":
-        register_bank_account()
+        account_number = register_bank_account(account_number)
     
     elif option == "U":
         show_users()

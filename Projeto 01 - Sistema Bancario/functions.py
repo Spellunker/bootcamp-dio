@@ -11,42 +11,43 @@ MENU_TEXT = """    [D] Deposit
     [E] Exit
     => """
 
+#menu function
 def menu():
     option = input(MENU_TEXT).upper()
     return option
 
-#positional only
-def deposit(value_deposit, balance, statement):
+#deposit function (Positional only)
+def deposit(value_deposit, balance, statement, /):
     if value_deposit <= 0:
         print(INVALID_OPTION)
     else:
         balance += value_deposit
-        statement += f"Deposit R${value_deposit:.2f}\n"
+        statement += f"Deposit\t\tR${value_deposit:.2f}\n"
         print(f"Your new balance is R${balance:.2f}!")
     return balance, statement
 
-#keyword only
-def withdrawal(value_withdrawal, balance, statement, LIMIT, withdrawal_number, WITHDRAWAL_LIMIT):
-    if withdrawal_number >= WITHDRAWAL_LIMIT:
+#withdrawal function(keyword only)
+def withdrawal(*, value_withdrawal, balance, statement, limit, withdrawal_number, withdrawal_limit):
+    if withdrawal_number >= withdrawal_limit:
         print("You have already reached your daily withdrawal limits!")
     elif value_withdrawal <= 0:
         print(INVALID_OPTION)
     elif value_withdrawal > balance:
         print("Not enough balance in your account!")
-    elif value_withdrawal > LIMIT:
-        print(f"Sorry, your withdraw limit is R${LIMIT}!")
+    elif value_withdrawal > limit:
+        print(f"Sorry, your withdraw limit is R${limit}!")
     else:
         balance -= value_withdrawal
-        statement += f"Withdrawal R${value_withdrawal:.2f}\n"
+        statement += f"Withdrawal \tR${value_withdrawal:.2f}\n"
         withdrawal_number += 1
         print(f"Your new balance is R${balance:.2f}!")
     return balance, statement, withdrawal_number
 
 #Positional (balance) and Keyword (statement)
-def show_statement(balance, statement):
+def show_statement(balance, /, *, statement):
     print("================Statement!================")
     print("You haven't performed any operations yet!" if not statement else statement)
-    print(f"\nBalance: R${balance:.2f}")
+    print(f"\nBalance: \tR${balance:.2f}")
     print("==========================================")
 
 #bank customer information
@@ -66,26 +67,33 @@ def register_user():
         city = input("Please inform the customer's city: ")
         state = input("Please inform the customer's state: ")
         users.update({cpf: {"name": name, "date_of_birth": date_of_birth, "address": f"{address}, {number} - {neighborhood} - {city}/{state}"}})
-        ...
+        
         print(f"The client {cpf} was registered with success")
-        print(users)
 
 #customer's account
 #dict = ["agency": "0001", account number, customer]
 #A customer can have more than one account, but one account can't have more than one costumer
-def register_bank_account():
-    ...
+def register_bank_account(account_number):
+    customer = input("Please inform the customer's CPF: ")
+
+    if customer not in users:
+        print("We don't have this costumer registered!")
+    else:
+        account_number += 1
+        accounts.update({account_number: {"Customer": customer, "Agency": "0001"}})
+        print(f"The account {account_number} has been created and linked to customer {customer}" )
+        return account_number
 
 #optional
 def show_users():
     if users == True:
         print("There is no User registered yet!")
     else:
-        print(users)
+        [print(i,":", j) for i, j in users.items()]
 
 #optional
 def show_account():
     if accounts == True:
         print("There is no accounts registered yet!")
     else:
-        print(accounts)
+        [print(i,":", j) for i, j in accounts.items()]
